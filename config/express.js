@@ -8,7 +8,7 @@ const passport = require('passport');
 const { publicPath } = require('./vars');
 const { jwt } = require('./passport');
 const { logs } = require('./vars');
-// const routes = require('../routes');
+const routes = require('../routes');
 
 const app = express();
 
@@ -26,6 +26,6 @@ passport.use(jwt);
 
 app.use(passport.initialize());
 
-// app.use(routes);
+app.use(routes);
 
 module.exports = app;
