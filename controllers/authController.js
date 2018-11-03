@@ -46,12 +46,12 @@ exports.refreshToken = async (req, res, next) => {
 exports.register = async (req, res, next) => {
   try {
     let user = new User({
-      email: req.body.email,
+      username: req.body.username,
       password: req.body.password,
-      name: {
-        fullName: _.isString(req.body.name) ? req.body.name : _.get(req.body, 'name.fullName'),
-        userName: _.get(req.body, 'name.userName')
-      }
+      email: req.body.email,
+      native_language: req.body.native_language,
+      exp: 0,
+      is_admin: false
     });
     user = await user.save();
     return res.status(200).send(_.omit(user, ['password']));

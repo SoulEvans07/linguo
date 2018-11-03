@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-  name: {
-    fullName: { type: String, required: true },
-    userName: String
-  },
-  email: { type: String, required: true, index: true },
+  username: { type: String, required: true, unique: true, index: true },
   password: String,
-  roles: { type: [String], default: ['user'] }
+  email: { type: String, required: true, unique: true, index: true },
+  native_language: String,
+  exp: { type: Number, default: 0 },
+  is_admin: Boolean,
+  signupdate: { type: Date, default: Date.now }
 });
 
 userSchema.pre('save', function (next) {
   const user = this;
-  if(user.isNew) {
+  if (user.isNew) {
     if (user.password) {
       bcrypt.hash(user.password, 10, (err, hash) => {
         if (err) {
