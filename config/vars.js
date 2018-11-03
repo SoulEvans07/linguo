@@ -11,6 +11,7 @@ module.exports = {
   port: process.env.PORT,
   host: process.env.NODE_ENV === 'dev' ? process.env.HOST || 'http://127.0.0.1' : process.env.HOST,
   publicPath: path.join(__dirname, '../public'),
+  routesPath: path.join(__dirname, '../routes'),
   mongo: {
     uri: process.env.MONGO_URI
   },

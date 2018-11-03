@@ -1,4 +1,5 @@
 const express = require('express');
+const _ = require('lodash');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const helmet = require('helmet');
@@ -6,9 +7,9 @@ const cors = require('cors');
 const passport = require('passport');
 
 const { publicPath } = require('./vars');
+const { routesPath } = require('./vars');
 const { jwt } = require('./passport');
 const { logs } = require('./vars');
-const routes = require('../routes');
 
 const app = express();
 
@@ -26,6 +27,17 @@ passport.use(jwt);
 
 app.use(passport.initialize());
 
-app.use(routes);
+const router = express.Router();
+const routes = require('require-all')({
+    dirname: routesPath,
+    filter: /.+\.js$/
+});
+
+_.mapValues(routes, (value, key) => {
+    const path = key.replace('.js', '');
+    router.use('/'+path, value);
+});
+
+app.use(router);
 
 module.exports = app;
