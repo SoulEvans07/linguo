@@ -1,0 +1,30 @@
+{
+  "name": "szar_hf",
+  "version": "0.0.1",
+  "description": "Nyelvtanulást segítő alkalmazás 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=dev nodemon ./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv-safe": "^6.1.0",
+    "express": "^4.16.4",
+    "helmet": "^3.14.0",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.3.9",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "require-all": "^3.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.18.5"
+  }
+}
