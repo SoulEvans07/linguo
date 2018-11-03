@@ -14,11 +14,11 @@ const signToken = user => jwt.sign(
 exports.login = async (req, res, next) => {
   const user = req.body.email
     ? await User.findOne({ email: req.body.email }).lean()
-    : await User.findOne({ 'name.userName': _.get(req.body, 'name.userName', req.body.userName) }).lean();
+    : await User.findOne({ username: req.body.username }).lean();
   if (!user) return res.status(404).send('User not found');
   const match = await bcrypt.compare(req.body.password, user.password);
   if (match) {
-    const token = signToken(_.pick(user, ['_id', 'email', 'name', 'roles']));
+    const token = signToken(_.pick(user, ['_id', 'email', 'username', 'is_admin']));
     user.password = undefined;
     return res.status(200).send({ user, token });
   }
@@ -32,7 +32,7 @@ exports.refreshToken = async (req, res, next) => {
     const userId = _.get(token, 'user._id');
     if (userId) {
       const currentUser = await User.findById(userId);
-      token = signToken(_.pick(currentUser, ['_id', 'email', 'name', 'roles']));
+      token = signToken(_.pick(currentUser, ['_id', 'email', 'username', 'is_admin']));
       delete currentUser.password;
       return res.status(200).send({ user: currentUser, token });
     }
