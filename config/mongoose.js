@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { mongo, env } = require('./vars');
 
 mongoose.Promise = global.Promise;
+mongoose.set('useCreateIndex', true);
 
 // Exit application on error
 mongoose.connection.on('error', (err) => {
