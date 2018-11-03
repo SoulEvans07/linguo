@@ -7,7 +7,7 @@ const wordSchema = new mongoose.Schema({
     word: String
   }],
   difficulty: Number,
-  tags: [ String ]
-})
+  tags: [String]
+});
 
 module.exports = mongoose.model('Word', wordSchema);

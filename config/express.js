@@ -29,13 +29,13 @@ app.use(passport.initialize());
 
 const router = express.Router();
 const routes = require('require-all')({
-    dirname: routesPath,
-    filter: /.+\.js$/
+  dirname: routesPath,
+  filter: /.+\.js$/
 });
 
 _.mapValues(routes, (value, key) => {
-    const path = key.replace('.js', '');
-    router.use('/'+path, value);
+  const path = key.replace('.js', '');
+  router.use('/' + path, value);
 });
 
 app.use(router);
