@@ -23,7 +23,7 @@ exports.login = async (req, res, next) => {
   const match = await bcrypt.compare(req.body.password, user.password);
 
   if (match) {
-    const token = signToken(_.pick(user, ['_id', 'email', 'username', 'is_admin']));
+    const token = signToken(_.pick(user, [ '_id', 'email', 'username', 'is_admin' ]));
     user.password = undefined;
     return res.status(200).send({ user, token });
   }
@@ -38,7 +38,7 @@ exports.refreshToken = async (req, res, next) => {
     const userId = _.get(token, 'user._id');
     if (userId) {
       const currentUser = await User.findById(userId);
-      token = signToken(_.pick(currentUser, ['_id', 'email', 'username', 'is_admin']));
+      token = signToken(_.pick(currentUser, [ '_id', 'email', 'username', 'is_admin' ]));
       delete currentUser.password;
       return res.status(200).send({ user: currentUser, token });
     }
@@ -78,7 +78,7 @@ exports.register = async (req, res, next) => {
 
     user = await user.save();
 
-    return res.status(200).send(_.omit(user, ['password']));
+    return res.status(200).send(_.omit(user, [ 'password' ]));
   } catch (e) {
     console.error('Error creating user', e);
     return res.status(500).send(e.message);
