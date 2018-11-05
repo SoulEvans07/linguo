@@ -63,7 +63,7 @@ exports.register = async (req, res, next) => {
 
     if (req.body.username.length < 3) {
       console.error('The username should be at least 3 characters!');
-      res.status(500).send('The username should be at least 3 characters!');
+      return res.status(500).send('The username should be at least 3 characters!');
     }
 
     // Create User
