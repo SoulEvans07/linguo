@@ -10,5 +10,10 @@ router.post('/new',
   wordController.addWord
 );
 
+router.post('/:id/update',
+  authController.authenticate,
+  wordController.updateWord
+);
+
 
 module.exports = router;
