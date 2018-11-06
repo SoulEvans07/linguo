@@ -5,6 +5,11 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 
+router.get('/list',
+  authController.authenticate,
+  gameController.list
+);
+
 router.post('/new',
   authController.authenticate,
   gameController.new
