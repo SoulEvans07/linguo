@@ -2,7 +2,7 @@ const entities = require('html-entities').AllHtmlEntities;
 
 const Word = require('../models/Word');
 
-exports.getDictionary = async (req, res, next) => {
+exports.dictionary = async (req, res, next) => {
   dictionary = await Word.find(
     {
       $or: [
@@ -21,7 +21,7 @@ exports.getDictionary = async (req, res, next) => {
   });
 };
 
-exports.addWord = async (req, res, next) => {
+exports.new = async (req, res, next) => {
   let word = new Word({
     lang_1: entities.encode(req.params.lang_1),
     lang_2: entities.encode(req.params.lang_2),

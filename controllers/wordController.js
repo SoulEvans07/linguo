@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const Word = require('../models/Word');
 
-exports.addWord = async (req, res, next) => {
+exports.new = async (req, res, next) => {
   let word = new Word({
     lang_1: entities.encode(req.body.lang_1),
     lang_2: entities.encode(req.body.lang_2),
@@ -18,13 +18,18 @@ exports.addWord = async (req, res, next) => {
   return res.status(200).send(word);
 };
 
-exports.updateWord = async (req, res, next) => {
-  if(req.params.id === undefined || req.body.lang_1 === undefined || req.body.lang_2 === undefined){
+exports.update = async (req, res, next) => {
+  if(req.body.lang_1 === undefined || req.body.lang_2 === undefined){
     return res.status(400).send("Missing parameters!");
   }
 
   var wid = mongoose.Types.ObjectId(req.params.id);
   let word = await Word.findOne({_id: wid}).exec();
+
+  if(word === null){
+    return res.status(400).send("Word doesn't exist!");
+  }
+
   word.order(req.body.lang_1, req.body.lang_2);
 
   if(req.body.word_1 !== undefined){
@@ -46,4 +51,17 @@ exports.updateWord = async (req, res, next) => {
   word = await word.save();
 
   return res.status(200).send(word);
+};
+
+exports.delete = async (req, res, next) => {
+  var wid = mongoose.Types.ObjectId(req.params.id);
+  let word = await Word.findOne({_id: wid}).exec();
+
+  if(word === null  ){
+    return res.status(400).send("Word doesn't exist!");
+  }
+
+  await word.delete();
+
+  return res.status(200).send();
 };

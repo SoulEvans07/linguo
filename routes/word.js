@@ -7,12 +7,17 @@ const router = express.Router();
 
 router.post('/new',
   authController.authenticate,
-  wordController.addWord
+  wordController.new
 );
 
 router.post('/:id/update',
   authController.authenticate,
-  wordController.updateWord
+  wordController.update
+);
+
+router.delete('/:id/delete',
+  authController.authenticate,
+  wordController.delete
 );
 
 
