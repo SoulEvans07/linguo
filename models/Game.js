@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = require('mongoose').Schema;
 
 const gameSchema = new mongoose.Schema({
   lesson: { type: Schema.Types.ObjectId, ref: 'Lesson' },
