@@ -22,7 +22,32 @@ exports.new = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  return res.status(200).send();
+  var gid = mongoose.Types.ObjectId(req.params.id);
+  let game = await Game.findOne({ _id: gid }).exec();
+
+  if (!game) {
+    return res.status(400).send("Word doesn't exist!");
+  }
+
+  if (req.body.lesson) {
+    game.lesson = req.body.lesson;
+  }
+
+  if (req.body.type) {
+    game.type = req.body.type;
+  }
+
+  if (req.body.question_count) {
+    game.question_count = req.body.question_count;
+  }
+
+  if (req.body.word_pool) {
+    game.word_pool = req.body.word_pool;
+  }
+
+  game = await game.save();
+
+  return res.status(200).send(game);
 };
 
 exports.delete = async (req, res, next) => {
