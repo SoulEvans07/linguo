@@ -31,6 +31,16 @@ exports.login = async (req, res, next) => {
   return res.status(403).send('Bad credentials!');
 };
 
+exports.authenticate = async (req, res, next) => {
+  try {
+    jwt.verify(req.headers.authorization, process.env.SECRET, { ignoreExpiration: true });
+    return next();
+  } catch (e) {
+    console.error('Error verifying token');
+    return res.status(403).send();
+  }
+};
+
 exports.refreshToken = async (req, res, next) => {
   let token = req.headers.authorization;
   try {
