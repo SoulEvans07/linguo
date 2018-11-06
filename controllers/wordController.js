@@ -26,7 +26,7 @@ exports.update = async (req, res, next) => {
   var wid = mongoose.Types.ObjectId(req.params.id);
   let word = await Word.findOne({_id: wid}).exec();
 
-  if(word === null){
+  if(!word){
     return res.status(400).send("Word doesn't exist!");
   }
 
@@ -57,11 +57,22 @@ exports.delete = async (req, res, next) => {
   var wid = mongoose.Types.ObjectId(req.params.id);
   let word = await Word.findOne({_id: wid}).exec();
 
-  if(word === null  ){
+  if(!word){
     return res.status(400).send("Word doesn't exist!");
   }
 
   await word.delete();
 
   return res.status(200).send();
+};
+
+exports.get = async (req, res, next) => {
+  var wid = mongoose.Types.ObjectId(req.params.id);
+  let word = await Word.findOne({_id: wid}).exec();
+
+  if(!word){
+    return res.status(400).send("Word doesn't exist!");
+  }
+
+  return res.status(200).send(word);
 };

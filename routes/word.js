@@ -20,5 +20,10 @@ router.delete('/:id/delete',
   wordController.delete
 );
 
+router.get('/:id',
+  authController.authenticate,
+  wordController.get
+);
+
 
 module.exports = router;
