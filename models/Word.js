@@ -21,7 +21,7 @@ wordSchema.methods.switch = function () {
 };
 
 wordSchema.methods.order = function (lang_1, lang_2) {
-  if(this.lang_1 === lang_2 && this.lang_2 === lang_1)
+  if (this.lang_1 === lang_2 && this.lang_2 === lang_1)
     return this.switch();
   return this;
 };
