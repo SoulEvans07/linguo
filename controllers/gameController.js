@@ -1,7 +1,6 @@
 const entities = require('html-entities').AllHtmlEntities;
 const mongoose = require('mongoose');
 
-const Lesson = require('../models/Lesson');
 const Game = require('../models/Game');
 const Word = require('../models/Word');
 
