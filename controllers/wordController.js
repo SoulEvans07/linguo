@@ -1,7 +1,18 @@
 const entities = require('html-entities').AllHtmlEntities;
 const mongoose = require('mongoose');
+const querystring = require('querystring');
 
 const Word = require('../models/Word');
+
+exports.list = async (req, res, next) => {
+  try {
+    let words = await Word.find({ ...querystring.parse(req.query.filter) }).lean()
+    return res.status(200).send(words)
+  } catch (e) {
+    console.error('Error in words list', e.message)
+    res.status(500).send(e.message)
+  }
+};
 
 exports.new = async (req, res, next) => {
   let word = new Word({
@@ -68,7 +79,7 @@ exports.delete = async (req, res, next) => {
 
 exports.get = async (req, res, next) => {
   var wid = mongoose.Types.ObjectId(req.params.id);
-  let word = await Word.findOne({ _id: wid }).exec();
+  let word = await Word.findOne({ _id: wid }).lean();
 
   if (!word) {
     return res.status(400).send("Word doesn't exist!");
