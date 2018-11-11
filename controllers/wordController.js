@@ -1,12 +1,11 @@
 const entities = require('html-entities').AllHtmlEntities;
 const mongoose = require('mongoose');
-const querystring = require('querystring');
 
 const Word = require('../models/Word');
 
 exports.list = async (req, res, next) => {
   try {
-    let words = await Word.find({ ...querystring.parse(req.query.filter) }).lean()
+    let words = req.query.filter ? await Word.find({}).lean() : await Word.find({ ...JSON.parse(req.query.filter) }).lean()
     return res.status(200).send(words)
   } catch (e) {
     console.error('Error in words list', e.message)
