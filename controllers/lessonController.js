@@ -22,7 +22,8 @@ exports.new = async (req, res, next) => {
     name: entities.encode(req.body.name),
     difficulty: 0,
     dictionary: dictionary,
-    word_pool: req.body.word_pool
+    word_pool: req.body.word_pool,
+    question_count: req.body.question_count
   });
 
   try {

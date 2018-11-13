@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 const Schema = require('mongoose').Schema;
 
 const gameSchema = new mongoose.Schema({
-  lesson: { type: Schema.Types.ObjectId, ref: 'Lesson' },
+  lesson_id: Schema.Types.ObjectId,
   user_id: Schema.Types.ObjectId,
   type: Number,
-  word_pool: [ { type: Schema.Types.ObjectId, ref: 'Word' } ],
   questions: [ { type: Schema.Types.ObjectId, ref: 'Question' } ],
   answers: [ { type: Schema.Types.ObjectId, ref: 'Answer' } ],
 

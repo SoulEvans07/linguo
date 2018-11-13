@@ -33,7 +33,14 @@ exports.login = async (req, res, next) => {
 
 exports.authenticate = async (req, res, next) => {
   try {
-    jwt.verify(req.headers.authorization, process.env.SECRET, { ignoreExpiration: true });
+    let token = jwt.verify(req.headers.authorization, process.env.SECRET);
+    const userId = _.get(token, 'user._id');
+    if (userId) {
+      const currentUser = await User.findById(userId);
+      currentUser.password = undefined;
+      currentUser.is_admin = undefined;
+      res.currentUser = currentUser;
+    }
     return next();
   } catch (e) {
     console.error('Error verifying token');

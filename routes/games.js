@@ -15,15 +15,15 @@ router.post('/new',
   gameController.new
 );
 
-router.post('/:id/update',
-  authController.authenticate,
-  gameController.update
-);
+// router.post('/:id/update',
+//   authController.authenticate,
+//   gameController.update
+// );
 
-router.delete('/:id/delete',
-  authController.authenticate,
-  gameController.delete
-);
+// router.delete('/:id/delete',
+//   authController.authenticate,
+//   gameController.delete
+// );
 
 router.get('/:id',
   authController.authenticate,

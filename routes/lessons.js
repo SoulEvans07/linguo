@@ -14,10 +14,10 @@ router.post('/new',
   lessonsController.new
 );
 
-router.post('/:id/update',
-  authController.authenticate,
-  lessonsController.update
-);
+// router.post('/:id/update',
+//   authController.authenticate,
+//   lessonsController.update
+// );
 
 router.delete('/:id/delete',
   authController.authenticate,
