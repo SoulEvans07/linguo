@@ -1,5 +1,6 @@
 const entities = require('html-entities').AllHtmlEntities;
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const Lesson = require('../models/Lesson');
 const Game = require('../models/Game');
@@ -13,6 +14,12 @@ const ALPHABET = [ "a", "b", "c", "d", "e", "f",
   "l", "m", "n", "o", "p",
   "q", "r", "s", "t", "u",
   "v", "w", "x", "y", "z" ];
+
+Array.prototype.asyncForEach = async function (callback) {
+  for (let index = 0; index < this.length; index++) {
+    await callback(this[ index ])
+  }
+};
 
 // TODO: lesson start -> create game instance
 exports.new = async (req, res, next) => {
@@ -29,13 +36,17 @@ exports.new = async (req, res, next) => {
     questions: pickQuestions(lesson, req.body.type),
   });
 
-  try{
+  game.questions.asyncForEach(await function (question) {
+    question.save()
+  });
+
+  try {
     game = await game.save()
-  }catch (e) {
+  } catch (e) {
     res.status(400).send(e.message);
   }
 
-  return res.status(200).send(game.questions[0]);
+  return res.status(200).send(game.questions[ 0 ]);
 };
 
 var pickQuestions = function (lesson, type) {
@@ -83,7 +94,7 @@ var createHangman = function (pool, count, difficulty) {
 
   words.forEach(word => {
     let question = new Question({
-      word: entities.decode(word.word_1),
+      word: word.word_1,
       type: GameType.HANGMAN,
       pool: selectLetters(entities.decode(word.word_2), difficulty)
     });
@@ -140,20 +151,22 @@ var translateDifficulty = function (difficulty, type) {
 
 exports.answer = async (req, res, next) => {
   var gid = mongoose.Types.ObjectId(req.params.id);
-  let game = await Game.findOne({ _id: gid }).exec();
+  let game = await Game.findOne({ _id: gid }).populate("questions").exec();
 
   if (!game) {
     return res.status(400).send("Game doesn't exist!");
   }
 
   let answer = new Answer({
-    word: req.body.word,
-    answer: req.body.answer,
+    word: entities.encode(req.body.word),
+    answer: entities.encode(req.body.answer),
     index: req.body.index
   });
 
-  if (game.questions[index].word !== answer.word)
+  if (game.questions[ answer.index ].word !== answer.word)
     return res.status(400).send("No question found for your answer!");
+  if(game.answers.length !== answer.index)
+    return res.status(400).send("You can't answer that question!");
 
   answer = await answer.save();
 
@@ -161,45 +174,45 @@ exports.answer = async (req, res, next) => {
   await game.save();
 
   // TODO: check answer and send that too
+  let lesson = await Lesson.findById(game.lesson_id).exec();
+  let lang_1 = lesson.dictionary.lang_1;
+  let lang_2 = lesson.dictionary.lang_2;
+  let possible = await Word.find({
+    $and: [
+      { $or: [ { lang_1: lang_1, lang_2: lang_2 }, { lang_1: lang_2, lang_2: lang_1 } ] },
+      { $or: [ { word_1: answer.word }, { word_2: answer.word } ] }
+    ]
+  }).exec();
 
-  if(answer.index+1 < game.questions.length)
-    return res.status(200).send(game.questions[answer.index+1]);
-  else
+  // check answer
+  let correct = false;
+  let solutions = [];
+  possible.forEach(wo => {
+    wo.order(lang_1, lang_2);
+    solutions.push(wo.word_2);
+  });
+  solutions.forEach(sol => correct = correct || sol === answer.answer);
+
+  if (answer.index + 1 < game.questions.length) {
+    return res.status(200).send({
+      correct: correct,
+      solution: solutions,
+      next: game.questions[ answer.index + 1 ]
+    });
+  } else {
     // TODO: send statistics
-    return res.status(200).send("You finished this Lesson!");
-};
-
-// TODO: remove, there shouldn't be generic update for game instance
-exports.update = async (req, res, next) => {
-  var gid = mongoose.Types.ObjectId(req.params.id);
-  let game = await Game.findOne({ _id: gid }).lean();
-
-
-
-  if (req.body.lesson) {
-    game.lesson = req.body.lesson;
+    // TODO: close/delete qame, questions and answers
+    return res.status(200).send({
+      correct: correct,
+      solution: solutions,
+      next: "Well done! You finished this Lesson!"
+    });
   }
-
-  if (req.body.type) {
-    game.type = req.body.type;
-  }
-
-  if (req.body.question_count) {
-    game.question_count = req.body.question_count;
-  }
-
-  if (req.body.word_pool) {
-    game.word_pool = req.body.word_pool;
-  }
-
-  game = await game.save();
-
-  return res.status(200).send(game);
 };
 
 // TODO: filter
 exports.list = async (req, res, next) => {
-  let list = await Game.find().lean();
+  let list = await Game.find().populate("questions").populate("answers").exec();
 
   return res.status(200).send(list);
 };

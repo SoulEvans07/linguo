@@ -15,10 +15,10 @@ router.post('/new',
   gameController.new
 );
 
-// router.post('/:id/update',
-//   authController.authenticate,
-//   gameController.update
-// );
+router.post('/:id/answer',
+  authController.authenticate,
+  gameController.answer
+);
 
 // router.delete('/:id/delete',
 //   authController.authenticate,
