@@ -27,11 +27,11 @@ exports.new = async (req, res, next) => {
     questions: pickQuestions(lesson, req.body.type),
   });
 
-  // try{
-  //   game = await game.save()
-  // }catch (e) {
-  //   res.status(400).send(e.message);
-  // }
+  try{
+    game = await game.save()
+  }catch (e) {
+    res.status(400).send(e.message);
+  }
 
   game.answers = undefined;
   return res.status(200).send(game);
