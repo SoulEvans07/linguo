@@ -59,6 +59,7 @@ exports.refreshToken = async (req, res, next) => {
   return res.status(403).send();
 };
 
+// TODO: destroy token server side too
 exports.logout = async (req, res, next) => {
   let token = req.headers.authorization;
 };

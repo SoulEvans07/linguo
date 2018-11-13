@@ -5,10 +5,12 @@ const Word = require('../models/Word');
 
 exports.list = async (req, res, next) => {
   try {
-    let words = req.query.filter ? await Word.find({}).lean() : await Word.find({ ...JSON.parse(req.query.filter) }).lean()
-    return res.status(200).send(words)
+    let words = req.query.filter
+      ? await Word.find({}).lean()
+      : await Word.find({ ...JSON.parse(req.query.filter) }).lean();
+    return res.status(200).send(words);
   } catch (e) {
-    console.error('Error in words list', e.message)
+    console.error('Error in words list', e.message);
     res.status(500).send(e.message)
   }
 };
@@ -34,7 +36,7 @@ exports.update = async (req, res, next) => {
   }
 
   var wid = mongoose.Types.ObjectId(req.params.id);
-  let word = await Word.findOne({ _id: wid }).exec();
+  let word = await Word.findOne({ _id: wid }).lean();
 
   if (!word) {
     return res.status(400).send("Word doesn't exist!");
@@ -65,7 +67,7 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   var wid = mongoose.Types.ObjectId(req.params.id);
-  let word = await Word.findOne({ _id: wid }).exec();
+  let word = await Word.findOne({ _id: wid }).lean();
 
   if (!word) {
     return res.status(400).send("Word doesn't exist!");
