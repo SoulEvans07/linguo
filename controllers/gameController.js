@@ -167,20 +167,6 @@ exports.update = async (req, res, next) => {
   return res.status(200).send(game);
 };
 
-// TODO: remove. on finishing lesson the game instance is closed but not removed
-exports.delete = async (req, res, next) => {
-  var gid = mongoose.Types.ObjectId(req.params.id);
-  let game = await Word.findOne({ _id: gid }).lean();
-
-  if (!game) {
-    return res.status(400).send("Game doesn't exist!");
-  }
-
-  await game.delete();
-
-  return res.status(200).send();
-};
-
 // TODO: filter
 exports.list = async (req, res, next) => {
   let list = await Game.find().lean();
