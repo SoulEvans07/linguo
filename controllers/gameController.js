@@ -5,7 +5,9 @@ const Lesson = require('../models/Lesson');
 const Game = require('../models/Game');
 const Word = require('../models/Word');
 const Question = require('../models/Question');
+const Answer = require('../models/Answer');
 const GameType = require('../models/GameTypeEnum');
+
 const ALPHABET = [ "a", "b", "c", "d", "e", "f",
   "g", "h", "i", "j", "k",
   "l", "m", "n", "o", "p",
@@ -33,8 +35,7 @@ exports.new = async (req, res, next) => {
     res.status(400).send(e.message);
   }
 
-  game.answers = undefined;
-  return res.status(200).send(game);
+  return res.status(200).send(game.questions[0]);
 };
 
 var pickQuestions = function (lesson, type) {
@@ -137,14 +138,43 @@ var translateDifficulty = function (difficulty, type) {
   return 10 - difficulty;
 };
 
+exports.answer = async (req, res, next) => {
+  var gid = mongoose.Types.ObjectId(req.params.id);
+  let game = await Game.findOne({ _id: gid }).exec();
+
+  if (!game) {
+    return res.status(400).send("Game doesn't exist!");
+  }
+
+  let answer = new Answer({
+    word: req.body.word,
+    answer: req.body.answer,
+    index: req.body.index
+  });
+
+  if (game.questions[index].word !== answer.word)
+    return res.status(400).send("No question found for your answer!");
+
+  answer = await answer.save();
+
+  game.answers.push(answer);
+  await game.save();
+
+  // TODO: check answer and send that too
+
+  if(answer.index+1 < game.questions.length)
+    return res.status(200).send(game.questions[answer.index+1]);
+  else
+    // TODO: send statistics
+    return res.status(200).send("You finished this Lesson!");
+};
+
 // TODO: remove, there shouldn't be generic update for game instance
 exports.update = async (req, res, next) => {
   var gid = mongoose.Types.ObjectId(req.params.id);
   let game = await Game.findOne({ _id: gid }).lean();
 
-  if (!game) {
-    return res.status(400).send("Word doesn't exist!");
-  }
+
 
   if (req.body.lesson) {
     game.lesson = req.body.lesson;
