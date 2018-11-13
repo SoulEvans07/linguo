@@ -6,6 +6,11 @@ const Game = require('../models/Game');
 const Word = require('../models/Word');
 const Question = require('../models/Question');
 const GameType = require('../models/GameTypeEnum');
+const ALPHABET = [ "a", "b", "c", "d", "e", "f",
+  "g", "h", "i", "j", "k",
+  "l", "m", "n", "o", "p",
+  "q", "r", "s", "t", "u",
+  "v", "w", "x", "y", "z" ];
 
 // TODO: lesson start -> create game instance
 exports.new = async (req, res, next) => {
@@ -37,7 +42,6 @@ var pickQuestions = function (lesson, type) {
   let pool = [];
 
   lesson.word_pool.forEach(word => {
-    console.log(word);
     pool.push(word.order(lesson.dictionary.lang_1, lesson.dictionary.lang_2));
   });
 
@@ -62,9 +66,9 @@ var createMatrix = function (pool, count, difficulty) {
 
   words.forEach(word => {
     let question = new Question({
-      word: word,
+      word: entities.decode(word.word_1),
       type: GameType.WORD_MATRIX,
-      pool: selectHints(pool, translateDifficulty(difficulty, GameType.WORD_MATRIX))
+      pool: selectMatrix(pool, translateDifficulty(difficulty, GameType.WORD_MATRIX))
     });
     question_list.push(question);
   });
@@ -73,7 +77,20 @@ var createMatrix = function (pool, count, difficulty) {
 };
 
 var createHangman = function (pool, count, difficulty) {
-  return [];
+  let question_list = [];
+  let words = selectWords(pool, count);
+
+  // TODO: select words should give an object list and in this foreach should we grab the word_1 attribute
+  words.forEach(word => {
+    let question = new Question({
+      word: entities.decode(word.word_1),
+      type: GameType.HANGMAN,
+      pool: selectLetters(entities.decode(word.word_2), difficulty)
+    });
+    question_list.push(question);
+  });
+
+  return question_list;
 };
 
 var createTypewriter = function (pool, count, difficulty) {
@@ -82,16 +99,27 @@ var createTypewriter = function (pool, count, difficulty) {
 
 var selectWords = function (pool, count) {
   let words = [];
-  pool.forEach(w => words.push(w.word_1));
+  pool.forEach(w => words.push(w));
   words = words.sort(() => .5 - Math.random());
   return words.slice(0, count);
 };
 
-var selectHints = function (pool, count) {
+var selectMatrix = function (pool, count) {
   let hints = [];
-  pool.forEach(w => hints.push(w.word_2));
+  pool.forEach(w => hints.push(entities.decode(w.word_2)));
   hints = hints.sort(() => .5 - Math.random());
   return hints.slice(0, count);
+};
+
+var selectLetters = function (word, count) {
+  let hints = word.split('');
+  let letters = ALPHABET;
+  letters = letters.filter(l => {
+    return word.indexOf(l) === -1;
+  });
+
+  letters = letters.sort(() => .5 - Math.random());
+  return (hints.concat(letters.slice(0, count))).sort(() => .5 - Math.random());
 };
 
 var translateDifficulty = function (difficulty, type) {
