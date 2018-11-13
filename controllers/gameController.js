@@ -80,7 +80,6 @@ var createHangman = function (pool, count, difficulty) {
   let question_list = [];
   let words = selectWords(pool, count);
 
-  // TODO: select words should give an object list and in this foreach should we grab the word_1 attribute
   words.forEach(word => {
     let question = new Question({
       word: entities.decode(word.word_1),
@@ -94,7 +93,19 @@ var createHangman = function (pool, count, difficulty) {
 };
 
 var createTypewriter = function (pool, count, difficulty) {
-  return [];
+  let question_list = [];
+  let words = selectWords(pool, count);
+
+  words.forEach(word => {
+    let question = new Question({
+      word: entities.decode(word.word_1),
+      type: GameType.TYPE_WRITER,
+      pool: undefined
+    });
+    question_list.push(question);
+  });
+
+  return question_list;
 };
 
 var selectWords = function (pool, count) {
