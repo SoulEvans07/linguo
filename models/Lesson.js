@@ -7,8 +7,7 @@ const lessonSchema = new mongoose.Schema({
   dictionary: {
     lang_1: String,
     lang_2: String
-  },
-  parts: [ { type: Schema.Types.ObjectId, ref: 'Game' }, ]
+  }
 });
 
 module.exports = mongoose.model('Lesson', lessonSchema);
