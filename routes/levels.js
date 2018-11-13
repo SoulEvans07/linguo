@@ -12,21 +12,25 @@ router.get('/list',
 
 router.post('/new',
   authController.authenticate,
+  authController.requireAdmin,
   levelController.new
 );
 
 router.post('/:id/update',
   authController.authenticate,
+  authController.requireAdmin,
   levelController.update
 );
 
 router.delete('/:id/delete',
   authController.authenticate,
+  authController.requireAdmin,
   levelController.delete
 );
 
 router.get('/:id',
   authController.authenticate,
+  authController.requireAdmin,
   levelController.get
 );
 

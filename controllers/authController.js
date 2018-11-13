@@ -38,7 +38,6 @@ exports.authenticate = async (req, res, next) => {
     if (userId) {
       const currentUser = await User.findById(userId);
       currentUser.password = undefined;
-      currentUser.is_admin = undefined;
       res.currentUser = currentUser;
     }
     return next();
@@ -46,6 +45,18 @@ exports.authenticate = async (req, res, next) => {
     console.error('Error verifying token');
     return res.status(403).send();
   }
+};
+
+exports.requireAdmin = async (req, res, next) => {
+  console.log(res.currentUser);
+
+  let admin = res.currentUser.is_admin;
+  res.currentUser.is_admin = undefined;
+
+  if(!admin)
+    return res.status(403).send();
+
+  return next();
 };
 
 exports.refreshToken = async (req, res, next) => {
