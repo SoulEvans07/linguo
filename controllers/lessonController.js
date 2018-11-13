@@ -12,35 +12,17 @@ Array.prototype.asyncForEach = async function (callback) {
   }
 };
 
-// TODO: remove game parts
+// TODO: difficulty
 exports.new = async (req, res, next) => {
   let dictionary = req.body.dictionary;
   dictionary.lang_1 = entities.encode(dictionary.lang_1);
   dictionary.lang_2 = entities.encode(dictionary.lang_2);
 
-  // TODO: difficulty
-  let parts = [];
-  await req.body.parts.asyncForEach(async function (game) {
-    console.log(typeof game);
-    if (typeof game === "string") {
-      parts.push(game);
-    } else if (typeof game === "object") {
-      game = new Game({
-        type: game.type,
-        word_pool: game.word_pool,
-        question_count: game.question_count
-      });
-
-      game = await game.save();
-      parts.push(game._id);
-    }
-  });
-
   let lesson = new Lesson({
     name: entities.encode(req.body.name),
     difficulty: 0,
     dictionary: dictionary,
-    parts: parts
+    word_pool: req.body.word_pool
   });
 
   try {
@@ -59,7 +41,7 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   var lid = mongoose.Types.ObjectId(req.params.id);
-  let lesson = await Lesson.findOne({ _id: lid }).lean();
+  let lesson = await Lesson.findOne({ _id: lid }).exec();
 
   if (!lesson) {
     return res.status(400).send("Lesson doesn't exist!");

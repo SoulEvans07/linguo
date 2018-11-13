@@ -36,12 +36,13 @@ exports.update = async (req, res, next) => {
   }
 
   var wid = mongoose.Types.ObjectId(req.params.id);
-  let word = await Word.findOne({ _id: wid }).lean();
+  let word = await Word.findOne({ _id: wid }).exec();
 
   if (!word) {
     return res.status(400).send("Word doesn't exist!");
   }
 
+  // if you use lean for requesting the word item, this function won't work
   word.order(req.body.lang_1, req.body.lang_2);
 
   if (req.body.word_1 !== undefined) {
@@ -67,12 +68,13 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   var wid = mongoose.Types.ObjectId(req.params.id);
-  let word = await Word.findOne({ _id: wid }).lean();
+  let word = await Word.findOne({ _id: wid }).exec();
 
   if (!word) {
     return res.status(400).send("Word doesn't exist!");
   }
 
+  // if you use lean for requesting the word item, this function won't work
   await word.delete();
 
   return res.status(200).send();

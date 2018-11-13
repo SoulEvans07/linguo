@@ -7,7 +7,8 @@ const lessonSchema = new mongoose.Schema({
   dictionary: {
     lang_1: String,
     lang_2: String
-  }
+  },
+  word_pool: [ { type: Schema.Types.ObjectId, ref: 'Word' } ]
 });
 
 module.exports = mongoose.model('Lesson', lessonSchema);
