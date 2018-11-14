@@ -47,7 +47,6 @@ exports.delete = async (req, res, next) => {
   return res.status(200).send();
 };
 
-// TODO: filter
 exports.list = async (req, res, next) => {
   let list = req.query.filter
       ? await Lesson.find({ ...JSON.parse(req.query.filter) }).populate(req.query.populate ? JSON.parse(req.query.populate) : '').lean()
