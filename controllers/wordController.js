@@ -6,8 +6,8 @@ const Word = require('../models/Word');
 exports.list = async (req, res, next) => {
   try {
     let words = req.query.filter
-      ? await Word.find({}).lean()
-      : await Word.find({ ...JSON.parse(req.query.filter) }).lean();
+      ? await Word.find({ ...JSON.parse(req.query.filter) }).lean()
+      : await Word.find({}).lean();
     return res.status(200).send(words);
   } catch (e) {
     console.error('Error in words list', e.message);
