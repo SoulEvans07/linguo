@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get('/list',
   authController.authenticate,
-  authController.requireAdmin,
   lessonsController.list
 );
 

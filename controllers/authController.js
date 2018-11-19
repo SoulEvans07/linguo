@@ -48,8 +48,6 @@ exports.authenticate = async (req, res, next) => {
 };
 
 exports.requireAdmin = async (req, res, next) => {
-  console.log(res.currentUser);
-
   let admin = res.currentUser.is_admin;
   res.currentUser.is_admin = undefined;
 

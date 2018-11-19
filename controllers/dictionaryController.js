@@ -16,9 +16,7 @@ exports.dictionary = async (req, res, next) => {
     word.order(req.params.lang_1, req.params.lang_2);
   });
 
-  return res.status(200).send({
-    dictionary: dictionary
-  });
+  return res.status(200).send(dictionary);
 };
 
 exports.new = async (req, res, next) => {
