@@ -5,8 +5,8 @@ const User = require('../models/User');
 exports.list = async (req, res, next) => {
   try {
     let list = req.query.filter
-    ? await User.find({ ...JSON.stringify(req.query.filter) }).lean()
-    : await User.find({}).lean();
+      ? await User.find({ ...JSON.parse(req.query.filter) }).lean()
+      : await User.find({}).lean();
     return res.status(200).send(list);
   } catch (e) {
     console.error('Error in User list', e.message)
