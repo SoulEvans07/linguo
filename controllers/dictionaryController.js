@@ -2,6 +2,7 @@ const entities = require('html-entities').AllHtmlEntities;
 
 const Word = require('../models/Word');
 
+
 exports.dictionary = async (req, res, next) => {
   dictionary = await Word.find(
     {

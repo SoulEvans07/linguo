@@ -6,6 +6,14 @@ const Game = require('../models/Game');
 const Word = require('../models/Word');
 
 
+exports.list = async (req, res, next) => {
+  let list = req.query.filter
+    ? await Lesson.find({ ...JSON.parse(req.query.filter) }).populate(req.query.populate ? JSON.parse(req.query.populate) : '').lean()
+    : await Lesson.find({}).populate(req.query.populate ? JSON.parse(req.query.populate) : '').lean();
+
+  return res.status(200).send(list);
+};
+
 // TODO: difficulty
 exports.new = async (req, res, next) => {
   let dictionary = req.body.dictionary;
@@ -29,11 +37,6 @@ exports.new = async (req, res, next) => {
   return res.status(200).send(lesson);
 };
 
-// TODO: lesson/:id/update
-exports.update = async (req, res, next) => {
-  return res.status(200).send();
-};
-
 exports.delete = async (req, res, next) => {
   var lid = mongoose.Types.ObjectId(req.params.id);
   let lesson = await Lesson.findOne({ _id: lid }).exec();
@@ -45,14 +48,6 @@ exports.delete = async (req, res, next) => {
   await lesson.delete();
 
   return res.status(200).send();
-};
-
-exports.list = async (req, res, next) => {
-  let list = req.query.filter
-      ? await Lesson.find({ ...JSON.parse(req.query.filter) }).populate(req.query.populate ? JSON.parse(req.query.populate) : '').lean()
-      : await Lesson.find({}).populate(req.query.populate ? JSON.parse(req.query.populate) : '').lean();
-
-  return res.status(200).send(list);
 };
 
 exports.get = async (req, res, next) => {

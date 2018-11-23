@@ -23,10 +23,9 @@ router.post('/:id/answer',
   gameController.answer
 );
 
-// router.delete('/:id/delete',
-//   authController.authenticate,
-//   gameController.delete
-// );
+// Games shouldn't have update
+
+// Games shouldn't have delete
 
 router.get('/:id',
   authController.authenticate,

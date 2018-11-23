@@ -1,6 +1,5 @@
 const entities = require('html-entities').AllHtmlEntities;
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 const Lesson = require('../models/Lesson');
 const Game = require('../models/Game');
@@ -9,11 +8,7 @@ const Question = require('../models/Question');
 const Answer = require('../models/Answer');
 const GameType = require('../models/GameTypeEnum');
 
-const ALPHABET = [ "a", "b", "c", "d", "e", "f",
-  "g", "h", "i", "j", "k",
-  "l", "m", "n", "o", "p",
-  "q", "r", "s", "t", "u",
-  "v", "w", "x", "y", "z" ];
+const ALPHABET = "abcdefghijklmnopqrstuvwxyz".split('');
 
 Array.prototype.asyncForEach = async function (callback) {
   for (let index = 0; index < this.length; index++) {
@@ -21,7 +16,14 @@ Array.prototype.asyncForEach = async function (callback) {
   }
 };
 
-// TODO: lesson start -> create game instance
+
+// TODO: filter
+exports.list = async (req, res, next) => {
+  let list = await Game.find().populate("questions").populate("answers").exec();
+
+  return res.status(200).send(list);
+};
+
 exports.new = async (req, res, next) => {
   var lid = mongoose.Types.ObjectId(req.body.lesson_id);
 
@@ -135,7 +137,9 @@ var selectMatrix = function (pool, count) {
 };
 
 var selectLetters = function (word, count) {
-  let hints = word.split('');
+  let hints = word.split('').filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
   let letters = ALPHABET;
   letters = letters.filter(l => {
     return word.indexOf(l) === -1;
@@ -165,7 +169,7 @@ exports.answer = async (req, res, next) => {
 
   if (game.questions[ answer.index ].word !== answer.word)
     return res.status(400).send("No question found for your answer!");
-  if(game.answers.length !== answer.index)
+  if (game.answers.length !== answer.index)
     return res.status(400).send("You can't answer that question!");
 
   answer = await answer.save();
@@ -208,13 +212,6 @@ exports.answer = async (req, res, next) => {
       next: "Well done! You finished this Lesson!"
     });
   }
-};
-
-// TODO: filter
-exports.list = async (req, res, next) => {
-  let list = await Game.find().populate("questions").populate("answers").exec();
-
-  return res.status(200).send(list);
 };
 
 exports.get = async (req, res, next) => {

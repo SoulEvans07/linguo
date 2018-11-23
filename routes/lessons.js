@@ -15,11 +15,7 @@ router.post('/new',
   lessonsController.new
 );
 
-// router.post('/:id/update',
-//   authController.authenticate,
-//   authController.requireAdmin,
-//   lessonsController.update
-// );
+// Lessons shouldn't have update
 
 router.delete('/:id/delete',
   authController.authenticate,

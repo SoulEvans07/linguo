@@ -10,6 +10,8 @@ router.get('/list',
   userController.list
 );
 
+// Users new is auth/register
+
 router.post('/:id/update',
   authController.authenticate,
   authController.requireAdmin,

@@ -3,7 +3,6 @@ const _ = require('lodash');
 const entities = require('html-entities').AllHtmlEntities;
 const bcrypt = require('bcrypt');
 
-
 const User = require('../models/User');
 
 const signToken = user => jwt.sign(
@@ -11,6 +10,7 @@ const signToken = user => jwt.sign(
   process.env.SECRET,
   { expiresIn: '7d' },
 );
+
 
 exports.login = async (req, res, next) => {
   const user = req.body.email
@@ -75,11 +75,6 @@ exports.refreshToken = async (req, res, next) => {
   return res.status(403).send();
 };
 
-// TODO: destroy token server side too
-exports.logout = async (req, res, next) => {
-  let token = req.headers.authorization;
-};
-
 exports.register = async (req, res, next) => {
   try {
     if ((typeof req.body === 'undefined') || (typeof req.body.username === 'undefined') ||
@@ -93,7 +88,6 @@ exports.register = async (req, res, next) => {
       return res.status(500).send('The username should be at least 3 characters!');
     }
 
-    // Create User
     let user = new User({
       username: entities.encode(req.body.username),
       password: req.body.password,
