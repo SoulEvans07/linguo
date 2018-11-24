@@ -97,7 +97,7 @@ var createHangman = function (pool, count, difficulty) {
 
   words.forEach(word => {
     let question = new Question({
-      word: word.word_1,
+      word: entities.decode(word.word_1),
       type: GameType.HANGMAN,
       length: word.word_2.length,
       pool: selectLetters(entities.decode(word.word_2), difficulty)
@@ -173,10 +173,17 @@ exports.answer = async (req, res, next) => {
     index: req.body.index
   });
 
-  if (game.questions[ answer.index ].word !== answer.word)
+  if (game.questions[ answer.index ].word !== entities.decode(answer.word)) {
+    console.log("No question found for your answer!");
+    console.log("expected:\n" + JSON.stringify(game.questions[answer.index].word));
+    console.log("got:\n" + JSON.stringify(answer));
     return res.status(400).send("No question found for your answer!");
-  if (game.answers.length !== answer.index)
+  }
+  if (game.answers.length !== answer.index) {
+    console.log("You can't answer that question!");
+    console.log(answer);
     return res.status(400).send("You can't answer that question!");
+  }
 
   answer = await answer.save();
 
