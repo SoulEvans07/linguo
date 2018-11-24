@@ -48,7 +48,7 @@ exports.new = async (req, res, next) => {
     res.status(400).send(e.message);
   }
 
-  return res.status(200).send(game.questions[ 0 ]);
+  return res.status(200).send({ game: game._id, question: game.questions[ 0 ] });
 };
 
 var pickQuestions = function (lesson, type) {
@@ -132,6 +132,9 @@ var selectWords = function (pool, count) {
 var selectMatrix = function (pool, count) {
   let hints = [];
   pool.forEach(w => hints.push(entities.decode(w.word_2)));
+  hints = hints.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
   hints = hints.sort(() => .5 - Math.random());
   return hints.slice(0, count);
 };
