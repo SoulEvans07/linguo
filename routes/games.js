@@ -7,19 +7,16 @@ const router = express.Router();
 
 router.get('/list',
   authController.authenticate,
-  authController.requireAdmin,
   gameController.list
 );
 
 router.post('/new',
   authController.authenticate,
-  authController.requireAdmin,
   gameController.new
 );
 
 router.post('/:id/answer',
   authController.authenticate,
-  authController.requireAdmin,
   gameController.answer
 );
 
