@@ -82,6 +82,7 @@ var createMatrix = function (pool, count, difficulty) {
     let question = new Question({
       word: entities.decode(word.word_1),
       type: GameType.WORD_MATRIX,
+      length: word.word_2.length,
       pool: selectMatrix(pool, translateDifficulty(difficulty, GameType.WORD_MATRIX))
     });
     question_list.push(question);
@@ -98,6 +99,7 @@ var createHangman = function (pool, count, difficulty) {
     let question = new Question({
       word: word.word_1,
       type: GameType.HANGMAN,
+      length: word.word_2.length,
       pool: selectLetters(entities.decode(word.word_2), difficulty)
     });
     question_list.push(question);
@@ -114,6 +116,7 @@ var createTypewriter = function (pool, count, difficulty) {
     let question = new Question({
       word: entities.decode(word.word_1),
       type: GameType.TYPE_WRITER,
+      length: word.word_2.length,
       pool: undefined
     });
     question_list.push(question);
