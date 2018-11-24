@@ -1,0 +1,46 @@
+[{
+	"_id": {
+		"$oid": "5bead51592b1962850d5377f"
+	},
+	"exp": 0,
+	"username": "newtest",
+	"password": "$2a$10$yjpcpviu96nAQEVgg3R8ZuOLxc8YIYPFRs0lsqrlFT6pj4BI.NEhS",
+	"email": "new.test.user@gmail.com",
+	"native_language": "hu_HU",
+	"is_admin": true,
+	"signupdate": {
+		"$date": "2018-11-13T13:43:49.945Z"
+	},
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf1b159e54f4e3f3ace5110"
+	},
+	"exp": 0,
+	"username": "soul",
+	"password": "$2b$10$eb9YVCaQOuD0/DW2T2iZMeJnFbyvMGNA9nJ2h7XjMqKak9tJ74txW",
+	"email": "soul",
+	"native_language": "hu_HU",
+	"is_admin": false,
+	"signupdate": {
+		"$date": "2018-11-18T18:37:13.933Z"
+	},
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf806c04f82767a58dd9c47"
+	},
+	"exp": 0,
+	"username": "test",
+	"password": "$2b$10$sfXoZrRUFhEAI.aQqDB7l.83iN3.f7fmZa8rCETC9pN9bwudVnL4y",
+	"email": "test@gmail.com",
+	"native_language": "hu_HU",
+	"is_admin": false,
+	"signupdate": {
+		"$date": "2018-11-23T13:55:12.433Z"
+	},
+	"__v": 0
+}]
+

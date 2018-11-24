@@ -1,0 +1,49 @@
+[{
+	"_id": {
+		"$oid": "5beb555770cd7e1efb9c1c34"
+	},
+	"name": "lvl 1",
+	"exp": 0,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5beb55a170cd7e1efb9c1c35"
+	},
+	"name": "lvl 2",
+	"exp": 100,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5beb55d070cd7e1efb9c1c36"
+	},
+	"name": "lvl 3",
+	"exp": 250,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5beb55e370cd7e1efb9c1c37"
+	},
+	"name": "lvl 4",
+	"exp": 400,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5beb560570cd7e1efb9c1c38"
+	},
+	"name": "lvl 5",
+	"exp": 700,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5beb560870cd7e1efb9c1c39"
+	},
+	"name": "lvl 6",
+	"exp": 1000,
+	"__v": 0
+}]
+

@@ -1,0 +1,418 @@
+[{
+	"_id": {
+		"$oid": "5bf8232bece3dd0d92ecc570"
+	},
+	"pool": [
+		"o",
+		"l",
+		"e",
+		"t",
+		"o",
+		"s",
+		"x",
+		"i",
+		"u",
+		"n",
+		"j"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf8232bece3dd0d92ecc571"
+	},
+	"pool": [
+		"r",
+		"e",
+		"h",
+		"d",
+		"n",
+		"c"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf8232bece3dd0d92ecc572"
+	},
+	"pool": [
+		"r",
+		"c",
+		"a",
+		"t",
+		"z",
+		"v"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823a9aff40110c0470c18"
+	},
+	"pool": [
+		"d",
+		"e",
+		"n",
+		"r",
+		"y",
+		"u"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823a9aff40110c0470c19"
+	},
+	"pool": [
+		"r",
+		"t",
+		"z",
+		"f",
+		"a",
+		"c"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823a9aff40110c0470c1a"
+	},
+	"pool": [
+		"o",
+		"l",
+		"u",
+		"y",
+		"t",
+		"i",
+		"s",
+		"n",
+		"k",
+		"w"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823adaff40110c0470c1c"
+	},
+	"pool": [
+		"d",
+		"r",
+		"w",
+		"e",
+		"u",
+		"a"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823adaff40110c0470c1d"
+	},
+	"pool": [
+		"u",
+		"s",
+		"o",
+		"i",
+		"l",
+		"t",
+		"k",
+		"r",
+		"w",
+		"n"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823adaff40110c0470c1e"
+	},
+	"pool": [
+		"c",
+		"r",
+		"y",
+		"a",
+		"g",
+		"n"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823aeaff40110c0470c20"
+	},
+	"pool": [
+		"c",
+		"r",
+		"a",
+		"x",
+		"n",
+		"e"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823aeaff40110c0470c21"
+	},
+	"pool": [
+		"s",
+		"o",
+		"l",
+		"i",
+		"b",
+		"n",
+		"u",
+		"x",
+		"t",
+		"a"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823aeaff40110c0470c22"
+	},
+	"pool": [
+		"r",
+		"y",
+		"d",
+		"z",
+		"e",
+		"w"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823afaff40110c0470c24"
+	},
+	"pool": [
+		"e",
+		"g",
+		"r",
+		"d",
+		"a",
+		"u"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823afaff40110c0470c25"
+	},
+	"pool": [
+		"o",
+		"s",
+		"u",
+		"t",
+		"x",
+		"l",
+		"w",
+		"a",
+		"i",
+		"n"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823afaff40110c0470c26"
+	},
+	"pool": [
+		"r",
+		"a",
+		"c",
+		"b",
+		"e",
+		"x"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823b0aff40110c0470c28"
+	},
+	"pool": [
+		"e",
+		"d",
+		"n",
+		"r",
+		"y",
+		"g"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823b0aff40110c0470c29"
+	},
+	"pool": [
+		"r",
+		"a",
+		"y",
+		"s",
+		"c",
+		"n"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823b0aff40110c0470c2a"
+	},
+	"pool": [
+		"o",
+		"l",
+		"t",
+		"s",
+		"u",
+		"z",
+		"i",
+		"n",
+		"f",
+		"y"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823b1aff40110c0470c2c"
+	},
+	"pool": [
+		"l",
+		"o",
+		"u",
+		"s",
+		"t",
+		"q",
+		"i",
+		"d",
+		"x",
+		"n"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823b1aff40110c0470c2d"
+	},
+	"pool": [
+		"o",
+		"a",
+		"g",
+		"r",
+		"s",
+		"c"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf823b1aff40110c0470c2e"
+	},
+	"pool": [
+		"d",
+		"e",
+		"q",
+		"x",
+		"r",
+		"h"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf88f3c893f88253631d073"
+	},
+	"pool": [
+		"d",
+		"r",
+		"e",
+		"i",
+		"a",
+		"c"
+	],
+	"word": "piros",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf88f3c893f88253631d074"
+	},
+	"pool": [
+		"w",
+		"a",
+		"r",
+		"x",
+		"c",
+		"e"
+	],
+	"word": "auto",
+	"type": 2,
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "5bf88f3c893f88253631d075"
+	},
+	"pool": [
+		"s",
+		"u",
+		"o",
+		"l",
+		"n",
+		"i",
+		"t",
+		"v",
+		"e",
+		"x"
+	],
+	"word": "megold\u0026aacute;s",
+	"type": 2,
+	"__v": 0
+}]
+

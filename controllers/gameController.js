@@ -177,7 +177,6 @@ exports.answer = async (req, res, next) => {
   game.answers.push(answer);
   await game.save();
 
-  // TODO: check answer and send that too
   let lesson = await Lesson.findById(game.lesson_id).exec();
   let lang_1 = lesson.dictionary.lang_1;
   let lang_2 = lesson.dictionary.lang_2;
@@ -189,17 +188,17 @@ exports.answer = async (req, res, next) => {
   }).exec();
 
   // check answer
-  let correct = false;
+  let is_correct = false;
   let solutions = [];
   possible.forEach(wo => {
     wo.order(lang_1, lang_2);
     solutions.push(wo.word_2);
   });
-  solutions.forEach(sol => correct = correct || sol === answer.answer);
+  solutions.forEach(sol => is_correct = is_correct || sol === answer.answer);
 
   if (answer.index + 1 < game.questions.length) {
     return res.status(200).send({
-      correct: correct,
+      correct: is_correct,
       solution: solutions,
       next: game.questions[ answer.index + 1 ]
     });
@@ -207,7 +206,7 @@ exports.answer = async (req, res, next) => {
     // TODO: send statistics
     // TODO: close/delete qame, questions and answers
     return res.status(200).send({
-      correct: correct,
+      correct: is_correct,
       solution: solutions,
       next: "Well done! You finished this Lesson!"
     });
