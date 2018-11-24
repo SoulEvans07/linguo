@@ -48,6 +48,7 @@ exports.new = async (req, res, next) => {
     res.status(400).send(e.message);
   }
 
+  console.log(game.questions[ 0 ]);
   return res.status(200).send({ game: game._id, question: game.questions[ 0 ] });
 };
 
@@ -79,11 +80,13 @@ var createMatrix = function (pool, count, difficulty) {
   let words = selectWords(pool, count);
 
   words.forEach(word => {
+    let matrix = selectMatrix(pool, translateDifficulty(difficulty, GameType.WORD_MATRIX));
+    matrix.push(entities.decode(word.word_2));
     let question = new Question({
       word: entities.decode(word.word_1),
       type: GameType.WORD_MATRIX,
       length: word.word_2.length,
-      pool: selectMatrix(pool, translateDifficulty(difficulty, GameType.WORD_MATRIX))
+      pool: matrix
     });
     question_list.push(question);
   });
@@ -143,16 +146,15 @@ var selectMatrix = function (pool, count) {
 };
 
 var selectLetters = function (word, count) {
-  let hints = word.split('').filter((value, index, self) => {
-    return self.indexOf(value) === index;
-  });
-  let letters = ALPHABET;
-  letters = letters.filter(l => {
-    return word.indexOf(l) === -1;
-  });
+  let hints = word.split('');
 
-  letters = letters.sort(() => .5 - Math.random());
-  return (hints.concat(letters.slice(0, count))).sort(() => .5 - Math.random());
+  for (let i = 0; i < count; i++) {
+    let rand_indx = Math.round(Math.random() * (ALPHABET.length-1));
+    let letter = ALPHABET[ rand_indx ];
+    hints.push(letter);
+  }
+
+  return hints.sort(() => .5 - Math.random());
 };
 
 var translateDifficulty = function (difficulty, type) {
@@ -175,7 +177,7 @@ exports.answer = async (req, res, next) => {
 
   if (game.questions[ answer.index ].word !== entities.decode(answer.word)) {
     console.log("No question found for your answer!");
-    console.log("expected:\n" + JSON.stringify(game.questions[answer.index].word));
+    console.log("expected:\n" + JSON.stringify(game.questions[ answer.index ].word));
     console.log("got:\n" + JSON.stringify(answer));
     return res.status(400).send("No question found for your answer!");
   }
@@ -208,6 +210,8 @@ exports.answer = async (req, res, next) => {
     solutions.push(wo.word_2);
   });
   solutions.forEach(sol => is_correct = is_correct || sol === answer.answer);
+
+  console.log(game.questions[ answer.index + 1 ]);
 
   if (answer.index + 1 < game.questions.length) {
     return res.status(200).send({
