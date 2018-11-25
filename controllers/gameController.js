@@ -85,7 +85,7 @@ var createMatrix = function (pool, count, difficulty) {
     let question = new Question({
       word: entities.decode(word.word_1),
       type: GameType.WORD_MATRIX,
-      length: word.word_2.length,
+      length: entities.decode(word.word_2).length,
       pool: matrix
     });
     question_list.push(question);
@@ -102,7 +102,7 @@ var createHangman = function (pool, count, difficulty) {
     let question = new Question({
       word: entities.decode(word.word_1),
       type: GameType.HANGMAN,
-      length: word.word_2.length,
+      length: entities.decode(word.word_2).length,
       pool: selectLetters(entities.decode(word.word_2), difficulty)
     });
     question_list.push(question);
@@ -119,7 +119,7 @@ var createTypewriter = function (pool, count, difficulty) {
     let question = new Question({
       word: entities.decode(word.word_1),
       type: GameType.TYPE_WRITER,
-      length: word.word_2.length,
+      length: entities.decode(word.word_2).length,
       pool: undefined
     });
     question_list.push(question);
@@ -148,6 +148,9 @@ var selectMatrix = function (pool, count) {
 var selectLetters = function (word, count) {
   let hints = word.split('');
 
+  // always add some letters
+  if (count === 0) count = 2
+  
   for (let i = 0; i < count; i++) {
     let rand_indx = Math.round(Math.random() * (ALPHABET.length-1));
     let letter = ALPHABET[ rand_indx ];
