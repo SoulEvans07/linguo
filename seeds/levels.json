@@ -11,7 +11,7 @@
 		"$oid": "5beb55a170cd7e1efb9c1c35"
 	},
 	"name": "lvl 2",
-	"exp": 100,
+	"exp": 10,
 	"__v": 0
 },
 {
@@ -19,7 +19,7 @@
 		"$oid": "5beb55d070cd7e1efb9c1c36"
 	},
 	"name": "lvl 3",
-	"exp": 250,
+	"exp": 25,
 	"__v": 0
 },
 {
@@ -27,7 +27,7 @@
 		"$oid": "5beb55e370cd7e1efb9c1c37"
 	},
 	"name": "lvl 4",
-	"exp": 400,
+	"exp": 40,
 	"__v": 0
 },
 {
@@ -35,7 +35,7 @@
 		"$oid": "5beb560570cd7e1efb9c1c38"
 	},
 	"name": "lvl 5",
-	"exp": 700,
+	"exp": 70,
 	"__v": 0
 },
 {
@@ -43,7 +43,7 @@
 		"$oid": "5beb560870cd7e1efb9c1c39"
 	},
 	"name": "lvl 6",
-	"exp": 1000,
+	"exp": 100,
 	"__v": 0
 }]
 
