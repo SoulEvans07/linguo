@@ -99,7 +99,9 @@ exports.register = async (req, res, next) => {
 
     user = await user.save();
 
-    return res.status(200).send(_.omit(user, [ 'password' ]));
+    user.password = undefined;
+
+    return res.status(200).send(user);
   } catch (e) {
     console.error('Error creating user', e);
     return res.status(500).send(e.message);
