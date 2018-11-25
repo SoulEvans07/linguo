@@ -36,7 +36,7 @@ exports.authenticate = async (req, res, next) => {
     let token = jwt.verify(req.headers.authorization, process.env.SECRET);
     const userId = _.get(token, 'user._id');
     if (userId) {
-      const currentUser = await User.findById(userId);
+      const currentUser = await User.findById(userId).exec();
       currentUser.password = undefined;
       res.currentUser = currentUser;
     }
@@ -65,7 +65,7 @@ exports.refreshToken = async (req, res, next) => {
     if (userId) {
       const currentUser = await User.findById(userId);
       token = signToken(_.pick(currentUser, [ '_id', 'email', 'username', 'is_admin' ]));
-      delete currentUser.password;
+      currentUser.password = undefined;
       return res.status(200).send({ user: currentUser, token });
     }
   } catch (e) {

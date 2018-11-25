@@ -25,7 +25,7 @@ exports.list = async (req, res, next) => {
 };
 
 exports.new = async (req, res, next) => {
-  var lid = mongoose.Types.ObjectId(req.body.lesson_id);
+  let lid = mongoose.Types.ObjectId(req.body.lesson_id);
 
   let lesson = await Lesson.findOne({ _id: lid }).populate("word_pool").exec();
   if (!lesson)
@@ -52,7 +52,7 @@ exports.new = async (req, res, next) => {
   return res.status(200).send({ game: game._id, question: game.questions[ 0 ] });
 };
 
-var pickQuestions = function (lesson, type) {
+let pickQuestions = function (lesson, type) {
   let question_list = [];
   let pool = [];
 
@@ -75,7 +75,7 @@ var pickQuestions = function (lesson, type) {
   return question_list;
 };
 
-var createMatrix = function (pool, count, difficulty) {
+let createMatrix = function (pool, count, difficulty) {
   let question_list = [];
   let words = selectWords(pool, count);
 
@@ -94,7 +94,7 @@ var createMatrix = function (pool, count, difficulty) {
   return question_list;
 };
 
-var createHangman = function (pool, count, difficulty) {
+let createHangman = function (pool, count, difficulty) {
   let question_list = [];
   let words = selectWords(pool, count);
 
@@ -111,7 +111,7 @@ var createHangman = function (pool, count, difficulty) {
   return question_list;
 };
 
-var createTypewriter = function (pool, count, difficulty) {
+let createTypewriter = function (pool, count, difficulty) {
   let question_list = [];
   let words = selectWords(pool, count);
 
@@ -128,14 +128,14 @@ var createTypewriter = function (pool, count, difficulty) {
   return question_list;
 };
 
-var selectWords = function (pool, count) {
+let selectWords = function (pool, count) {
   let words = [];
   pool.forEach(w => words.push(w));
   words = words.sort(() => .5 - Math.random());
   return words.slice(0, count);
 };
 
-var selectMatrix = function (pool, count) {
+let selectMatrix = function (pool, count) {
   let hints = [];
   pool.forEach(w => hints.push(entities.decode(w.word_2)));
   hints = hints.filter((value, index, self) => {
@@ -145,7 +145,7 @@ var selectMatrix = function (pool, count) {
   return hints.slice(0, count);
 };
 
-var selectLetters = function (word, count) {
+let selectLetters = function (word, count) {
   let hints = word.split('');
 
   // always add some letters
@@ -160,13 +160,13 @@ var selectLetters = function (word, count) {
   return hints.sort(() => .5 - Math.random());
 };
 
-var translateDifficulty = function (difficulty, type) {
+let translateDifficulty = function (difficulty, type) {
   return 10 - difficulty;
 };
 
 exports.answer = async (req, res, next) => {
-  var gid = mongoose.Types.ObjectId(req.params.id);
-  let game = await Game.findOne({ _id: gid }).populate("questions").exec();
+  let gid = mongoose.Types.ObjectId(req.params.id);
+  let game = await Game.findOne({ _id: gid }).populate("questions").populate("answers").exec();
 
   if (!game) {
     return res.status(400).send("Game doesn't exist!");
@@ -190,11 +190,6 @@ exports.answer = async (req, res, next) => {
     return res.status(400).send("You can't answer that question!");
   }
 
-  answer = await answer.save();
-
-  game.answers.push(answer);
-  await game.save();
-
   let lesson = await Lesson.findById(game.lesson_id).exec();
   let lang_1 = lesson.dictionary.lang_1;
   let lang_2 = lesson.dictionary.lang_2;
@@ -214,7 +209,11 @@ exports.answer = async (req, res, next) => {
   });
   solutions.forEach(sol => is_correct = is_correct || sol === answer.answer);
 
-  console.log(game.questions[ answer.index + 1 ]);
+  answer.is_correct = is_correct;
+  answer = await answer.save();
+
+  game.answers.push(answer);
+  await game.save();
 
   if (answer.index + 1 < game.questions.length) {
     return res.status(200).send({
@@ -223,18 +222,34 @@ exports.answer = async (req, res, next) => {
       next: game.questions[ answer.index + 1 ]
     });
   } else {
-    // TODO: send statistics
-    // TODO: close/delete qame, questions and answers
+    let score = getScore(game);
+    
+    res.currentUser.exp += score;
+    await res.currentUser.save();
+    
     return res.status(200).send({
       correct: is_correct,
       solution: solutions,
-      next: "Well done! You finished this Lesson!"
+      game: {
+        questions: game.questions,
+        answers: game.answers
+      },
+      score: score
     });
   }
 };
 
+let getScore = function(game){
+  let score = 0;
+  game.answers.forEach(answer => {
+    score += answer.is_correct ? game.questions[answer.index].length : 0;
+  });
+
+  return score;
+};
+
 exports.get = async (req, res, next) => {
-  var gid = mongoose.Types.ObjectId(req.params.id);
+  let gid = mongoose.Types.ObjectId(req.params.id);
   let game = await Game.findOne({ _id: gid }).populate("word_pool").lean();
 
   if (!game) {
