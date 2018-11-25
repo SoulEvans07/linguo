@@ -14,15 +14,26 @@ exports.list = async (req, res, next) => {
   return res.status(200).send(list);
 };
 
-// TODO: difficulty
 exports.new = async (req, res, next) => {
   let dictionary = req.body.dictionary;
   dictionary.lang_1 = entities.encode(dictionary.lang_1);
   dictionary.lang_2 = entities.encode(dictionary.lang_2);
 
+  let ids = [];
+  req.body.word_pool.forEach(word => {
+    ids.push(mongoose.Types.ObjectId(word));
+  });
+
+  let words = await Word.find({ _id: { $in: ids } }).exec();
+  let max_difficulty = 0;
+  words.forEach(word => {
+    if (max_difficulty < word.difficulty)
+      max_difficulty = word.difficulty;
+  });
+
   let lesson = new Lesson({
     name: entities.encode(req.body.name),
-    difficulty: 0,
+    difficulty: max_difficulty,
     dictionary: dictionary,
     word_pool: req.body.word_pool,
     question_count: req.body.question_count
