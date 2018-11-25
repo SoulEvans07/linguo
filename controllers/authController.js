@@ -65,7 +65,7 @@ exports.refreshToken = async (req, res, next) => {
     if (userId) {
       const currentUser = await User.findById(userId);
       token = signToken(_.pick(currentUser, [ '_id', 'email', 'username', 'is_admin' ]));
-      delete currentUser.password;
+      currentUser.password = undefined;
       return res.status(200).send({ user: currentUser, token });
     }
   } catch (e) {
