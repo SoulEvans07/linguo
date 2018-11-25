@@ -30,7 +30,6 @@ router.delete('/:id/delete',
 
 router.get('/:id',
   authController.authenticate,
-  authController.requireAdmin,
   levelController.get
 );
 

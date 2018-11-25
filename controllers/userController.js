@@ -7,9 +7,14 @@ exports.list = async (req, res, next) => {
     let list = req.query.filter
       ? await User.find({ ...JSON.parse(req.query.filter) }).lean()
       : await User.find({}).lean();
+
+    list.forEach(user => {
+      user.password = undefined;
+    });
+
     return res.status(200).send(list);
   } catch (e) {
-    console.error('Error in User list', e.message)
+    console.error('Error in User list', e.message);
     return res.status(500).send(e.message)
   }
 };
@@ -23,8 +28,6 @@ exports.update = async (req, res, next) => {
   if (req.body.username) user.username = entities.encode(req.body.username);
   if (req.body.email) user.email = entities.encode(req.body.email);
   if (req.body.native_language) user.native_language = entities.encode(req.body.native_language);
-  if (req.body.name) user.name = entities.encode(req.body.name);
-  // TODO? check if old password is correct
   if (req.body.password) user.password = req.body.password;
 
   user = await user.save();
@@ -48,6 +51,8 @@ exports.get = async (req, res, next) => {
 
   if (!user)
     return res.status(404).send("No user with id" + req.params.id + "!");
+
+  user.password = undefined;
 
   return res.status(200).send(user);
 };
