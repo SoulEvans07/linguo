@@ -17,9 +17,10 @@ Array.prototype.asyncForEach = async function (callback) {
 };
 
 
-// TODO: filter
 exports.list = async (req, res, next) => {
-  let list = await Game.find().populate("questions").populate("answers").exec();
+  let list = req.query.filter
+  ? await Game.find({ ...JSON.parse(req.query.filter) }).populate(req.query.populate ? JSON.parse(req.query.populate) : '').lean()
+  : await Game.find({}).populate(req.query.populate ? JSON.parse(req.query.populate) : '').lean()
 
   return res.status(200).send(list);
 };
